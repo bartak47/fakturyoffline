@@ -1,0 +1,866 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap');
+
+/* Základní styly */
+.faktura-app {
+    font-family: 'Oxygen', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    color: hsl(60, 1.41%, 13.92%);
+    background-color: #f2f2f2;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.faktura-header {
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 25px 0;
+    background-color: #222222;
+    border: 1px solid hsl(60, 1.41%, 13.92%);
+    border-radius: 0;
+    box-shadow: none;
+    position: relative;
+    color: white;
+}
+
+.faktura-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: 700;
+}
+
+.faktura-subtitle {
+    font-size: 16px;
+    color: #e0e0e0;
+    margin-bottom: 5px;
+}
+
+.faktura-section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: hsl(60, 1.41%, 13.92%);
+    font-weight: 600;
+    border-bottom: 2px solid hsl(60, 1.41%, 13.92%);
+    padding-bottom: 8px;
+}
+
+/* Formulář */
+.faktura-form-container {
+    background-color: #fff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faktura-form-group {
+    margin-bottom: 22px;
+    position: relative;
+}
+
+.faktura-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.faktura-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: hsl(60, 1.41%, 13.92%);
+    font-size: 14px;
+}
+
+.required-field::after {
+    content: " *";
+    color: #e53935;
+}
+
+.faktura-form-input,
+.faktura-form-select,
+.faktura-form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid hsl(60, 1.41%, 13.92%);
+    border-radius: 0;
+    font-size: 14px;
+    color: hsl(60, 1.41%, 13.92%);
+    font-family: 'Oxygen', sans-serif;
+    transition: border-color 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.faktura-form-input:focus,
+.faktura-form-select:focus,
+.faktura-form-textarea:focus {
+    border-color: hsl(60, 1.41%, 13.92%);
+    outline: none;
+    box-shadow: 0 1px 3px rgba(36, 36, 35, 0.2);
+}
+
+.faktura-form-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Tlačítka */
+.faktura-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Oxygen', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    gap: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.faktura-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.faktura-btn-primary {
+    background-color: hsl(60, 1.41%, 13.92%);
+    color: white;
+}
+
+.faktura-btn-primary:hover {
+    background-color: hsl(60, 1.41%, 20%);
+}
+
+.faktura-btn-secondary {
+    background-color: #ffffff;
+    color: hsl(60, 1.41%, 13.92%);
+    border: 1px solid hsl(60, 1.41%, 13.92%);
+}
+
+.faktura-btn-secondary:hover {
+    background-color: #f5f5f5;
+}
+
+.faktura-btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.faktura-btn-block {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.faktura-btn-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+}
+
+/* Tabulka */
+.faktura-table-container {
+    overflow-x: auto;
+    margin-bottom: 25px;
+    border-radius: 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.faktura-table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.faktura-table th {
+    background-color: #222222;
+    text-align: left;
+    padding: 14px 16px;
+    font-weight: 600;
+    color: white;
+    border-bottom: 2px solid hsl(60, 1.41%, 13.92%);
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.faktura-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.faktura-table tr:last-child td {
+    border-bottom: none;
+}
+
+.faktura-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.faktura-table tr:hover {
+    background-color: #f0f0f0;
+}
+
+.faktura-table-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.faktura-table-total-label {
+    text-align: right;
+    font-weight: 600;
+}
+
+.faktura-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.faktura-actions-right {
+    justify-content: flex-end;
+}
+
+/* Modální okna */
+.faktura-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    padding: 20px;
+}
+
+.faktura-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.faktura-modal {
+    background-color: white;
+    border-radius: 0;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+.faktura-modal-xl {
+    max-width: 950px;
+}
+
+.faktura-modal-overlay.active .faktura-modal {
+    transform: translateY(0);
+}
+
+.faktura-modal-header {
+    padding: 18px 25px;
+    background-color: #222222;
+    color: white;
+    border-bottom: 1px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.faktura-modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+}
+
+.faktura-modal-close {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.faktura-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.faktura-modal-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+.faktura-modal-body {
+    padding: 25px;
+}
+
+.faktura-modal-footer {
+    padding: 18px 25px;
+    border-top: 1px solid #eceff1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Náhled faktury */
+.faktura-preview {
+    background-color: white;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    overflow-x: auto;
+}
+
+/* Notifikace */
+.faktura-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 15px 20px;
+    background-color: #323232;
+    color: white;
+    border-radius: 0;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1100;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 90%;
+}
+
+.faktura-notification.active {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Error notifikace */
+.faktura-notification-error {
+    background-color: #d32f2f;
+}
+
+/* Loader */
+.faktura-loader {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1200;
+}
+
+.faktura-loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: hsl(60, 1.41%, 13.92%);
+    animation: faktura-spin 1s linear infinite;
+}
+
+@keyframes faktura-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Přepínač pro výpočet DPH */
+.faktura-switch-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.faktura-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.faktura-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.faktura-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.faktura-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .faktura-slider {
+    background-color: hsl(60, 1.41%, 13.92%);
+}
+
+input:checked + .faktura-slider:before {
+    transform: translateX(26px);
+}
+
+/* Dokument faktury (pro náhled a generování PDF) */
+.faktura-document {
+    font-family: 'Oxygen', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #000;
+    width: 21cm;
+    height: 29.7cm;
+    margin: 0 auto;
+    padding: 1.5cm;
+    background-color: white;
+    font-size: 12px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.faktura-document-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5cm;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.5cm;
+}
+
+.faktura-document-logo {
+    max-width: 180px;
+}
+
+.faktura-logo {
+    max-width: 100%;
+    height: auto;
+}
+
+.faktura-document-title {
+    text-align: right;
+}
+
+.faktura-document-title h1 {
+    font-size: 22px;
+    margin: 0 0 10px 0;
+    color: #222;
+}
+
+.faktura-document-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+}
+
+.faktura-document-parties {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1cm;
+}
+
+.faktura-document-supplier,
+.faktura-document-customer {
+    width: 45%;
+}
+
+.faktura-document-supplier h2,
+.faktura-document-customer h2 {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #222;
+    padding-bottom: 5px;
+    color: #222;
+}
+
+.faktura-document-supplier-info p,
+.faktura-document-customer-info p {
+    margin: 4px 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.faktura-document-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1cm;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+}
+
+/* Vertikální ohraničení a padding k jednotlivým sekcím info panelu */
+.faktura-document-dates {
+    width: 33%;
+    border-right: 1px solid #ddd;
+    padding: 0 15px 0 0;
+}
+
+.faktura-document-payment-info {
+    width: 43%;
+    border-right: 1px solid #ddd;
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.faktura-document-payment-symbols {
+    width: 33%;
+    padding: 0 0 0 15px;
+    margin-bottom: 15px;
+}
+
+.faktura-document-date-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.faktura-document-payment {
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.faktura-document-total {
+    width: 100%;
+    text-align: right;
+    padding-top: 10px;
+}
+
+.faktura-document-payment h3 {
+    font-size: 14px;
+    margin: 0 0 8px 0;
+    color: #222;
+}
+
+.faktura-document-payment p {
+    margin: 3px 0;
+    font-size: 12px;
+}
+
+.faktura-document-symbol-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.faktura-document-total-amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+}
+
+.faktura-document-items {
+    margin-bottom: 0.8cm;
+}
+
+.faktura-document-items h3 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    color: #222;
+}
+
+.faktura-document-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.faktura-document-items-table th {
+    background-color: #222;
+    color: white;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.faktura-document-items-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.faktura-document-items-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.faktura-document-summary {
+    margin-bottom: 0.8cm;
+}
+
+.faktura-document-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.faktura-document-summary-table th {
+    background-color: #222;
+    color: white;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.faktura-document-summary-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.faktura-document-summary-table tfoot tr {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.faktura-document-total-summary {
+    text-align: right;
+    margin-bottom: 0.7cm;
+    font-size: 16px;
+    background-color: #222;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+
+.faktura-document-footer {
+    margin-top: 1.2cm;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.5cm;
+    position: absolute;
+    bottom: 1.5cm;
+    left: 1.5cm;
+    right: 1.5cm;
+}
+
+/* Přidané styly pro responzivní design */
+.faktura-mobile .faktura-form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.faktura-mobile .faktura-actions {
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.faktura-mobile .faktura-btn {
+    width: 100%;
+}
+
+/* Kartičkový systém pro mobilní zařízení */
+.faktura-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: transparent;
+    overflow: visible;
+}
+
+.faktura-card {
+    background-color: white;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.faktura-card-header {
+    background-color: #222222;
+    color: white;
+    padding: 12px 15px;
+}
+
+.faktura-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.faktura-card-content {
+    padding: 15px;
+}
+
+.faktura-card-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.faktura-card-row:last-child {
+    border-bottom: none;
+}
+
+.faktura-card-total {
+    font-weight: bold;
+    margin-top: 5px;
+    padding-top: 8px;
+    border-top: 2px solid #222222;
+}
+
+.faktura-card-footer {
+    display: flex;
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+    gap: 10px;
+}
+
+.faktura-card-footer .faktura-btn {
+    flex: 1;
+}
+
+.faktura-card-empty {
+    background-color: #f9f9f9;
+    border: 1px dashed #ddd;
+    text-align: center;
+}
+
+.faktura-card-summary {
+    background-color: #f0f0f0;
+    border: 2px solid #222222;
+}
+
+/* Opravené zobrazení faktury na mobilních zařízeních */
+@media (max-width: 768px) {
+    .faktura-table-container table {
+        display: none;
+    }
+    
+    .faktura-form-container {
+        padding: 15px;
+    }
+    
+    .faktura-header {
+        padding: 15px 0;
+    }
+    
+    .faktura-modal-body {
+        padding: 15px;
+    }
+    
+    .faktura-modal-footer {
+        padding: 15px;
+    }
+    
+    .faktura-modal-header {
+        padding: 12px 15px;
+    }
+    
+    .faktura-modal {
+        width: 95%;
+        max-width: 100%;
+    }
+    
+    /* Opravené zobrazení náhledu faktury na mobilních zařízeních */
+    .faktura-preview {
+        width: 100%;
+        overflow-x: auto;
+        padding: 5px;
+    }
+    
+    .faktura-preview .faktura-document {
+        width: 210mm;
+        min-height: 297mm;
+        transform: scale(0.35);
+        transform-origin: top left;
+        margin: 0;
+        padding: 20mm 15mm;
+    }
+    
+    /* Zajištění desktop rozložení i na mobilních zařízeních */
+    .faktura-preview .faktura-document-header,
+    .faktura-preview .faktura-document-parties,
+    .faktura-preview .faktura-document-info {
+        flex-direction: row !important;
+    }
+    
+    .faktura-preview .faktura-document-supplier,
+    .faktura-preview .faktura-document-customer {
+        width: 45% !important;
+    }
+    
+    .faktura-preview .faktura-document-dates {
+        width: 33% !important;
+    }
+    
+    .faktura-preview .faktura-document-payment {
+        width: 65% !important;
+    }
+}
+
+/* Vylepšení responzivity i na větších tabletech */
+@media (max-width: 1024px) {
+    .faktura-app {
+        padding: 10px;
+    }
+    
+    .faktura-form-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/* Zajištění konzistence PDF generování a náhledu */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    .faktura-document, .faktura-document * {
+        visibility: visible;
+    }
+    
+    .faktura-document {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 210mm;
+        height: auto;
+    }
+}
