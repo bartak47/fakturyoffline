@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jednoduchý generátor faktur - Edita Prokešová, DiS.</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hlavní HTML struktura generátoru faktur -->
+    <div class="faktura-app" id="faktura-app">
+        <!-- Hlavička generátoru faktur -->
+        <div class="faktura-header">
+            <h1 class="faktura-title">Jednoduchý generátor faktur</h1>
+            <div class="faktura-subtitle">Edita Prokešová, DiS.</div>
+        </div>
+        
+        <!-- Formulář pro nastavení faktury -->
+        <div class="faktura-form-container">
+            <h2 class="faktura-section-title">Nastavení faktury</h2>
+            <form id="faktura-settings-form" class="faktura-form">
+                <div class="faktura-form-group">
+                    <label for="faktura-cislo" class="faktura-form-label required-field">Číslo faktury</label>
+                    <input type="text" id="faktura-cislo" class="faktura-form-input" required>
+                </div>
+                
+                <div class="faktura-form-grid">
+                    <div class="faktura-form-group">
+                        <label for="faktura-datum-vystaveni" class="faktura-form-label required-field">Datum vystavení</label>
+                        <input type="date" id="faktura-datum-vystaveni" class="faktura-form-input" required>
+                    </div>
+                    
+                    <div class="faktura-form-group">
+                        <label for="faktura-datum-plneni" class="faktura-form-label required-field">Datum zdanitelného plnění</label>
+                        <input type="date" id="faktura-datum-plneni" class="faktura-form-input" required>
+                    </div>
+                    
+                    <div class="faktura-form-group">
+                        <label for="faktura-datum-splatnosti" class="faktura-form-label required-field">Datum splatnosti</label>
+                        <input type="date" id="faktura-datum-splatnosti" class="faktura-form-input" required>
+                    </div>
+                </div>
+                
+                <!-- Přidání způsobu úhrady -->
+                <div class="faktura-form-group">
+                    <label for="faktura-zpusob-uhrady" class="faktura-form-label required-field">Způsob úhrady</label>
+                    <select id="faktura-zpusob-uhrady" class="faktura-form-select" required>
+                        <option value="bankovním převodem">Bankovním převodem</option>
+                        <option value="hotově">Hotově</option>
+                        <option value="kartou">Kartou</option>
+                        <option value="voucherem">Voucherem</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Odběratel -->
+        <div class="faktura-form-container">
+            <h2 class="faktura-section-title">Údaje odběratele</h2>
+            <form id="faktura-odberatel-form" class="faktura-form">
+                <div class="faktura-form-group">
+                    <label for="odberatel-jmeno" class="faktura-form-label required-field">Jméno a příjmení / název firmy</label>
+                    <input type="text" id="odberatel-jmeno" class="faktura-form-input" required>
+                </div>
+                
+                <div class="faktura-form-group">
+                    <label for="odberatel-adresa" class="faktura-form-label">Adresa</label>
+                    <textarea id="odberatel-adresa" class="faktura-form-textarea" rows="3"></textarea>
+                </div>
+                
+                <div class="faktura-form-grid">
+                    <div class="faktura-form-group">
+                        <label for="odberatel-ic" class="faktura-form-label">IČ</label>
+                        <input type="text" id="odberatel-ic" class="faktura-form-input">
+                    </div>
+                    
+                    <div class="faktura-form-group">
+                        <label for="odberatel-dic" class="faktura-form-label">DIČ</label>
+                        <input type="text" id="odberatel-dic" class="faktura-form-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Položky faktury -->
+        <div class="faktura-form-container">
+            <h2 class="faktura-section-title">Položky faktury</h2>
+            
+            <div class="faktura-table-container">
+                <table class="faktura-table" id="polozky-table">
+                    <thead>
+                        <tr>
+                            <th>Označení dodávky</th>
+                            <th>Počet m.j.</th>
+                            <th>Cena za m.j.</th>
+                            <th>DPH %</th>
+                            <th>Celkem bez DPH</th>
+                            <th>DPH</th>
+                            <th>Celkem s DPH</th>
+                            <th class="faktura-table-actions-header">Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody id="polozky-list">
+                        <!-- Sem budou dynamicky přidávány položky -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="faktura-table-total-label">Celkem:</td>
+                            <td id="celkem-bez-dph">0,00 Kč</td>
+                            <td id="celkem-dph">0,00 Kč</td>
+                            <td id="celkem-s-dph">0,00 Kč</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <button type="button" id="btn-add-polozka" class="faktura-btn faktura-btn-primary faktura-btn-block">
+                <svg class="faktura-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Přidat položku</span>
+            </button>
+        </div>
+        
+        <!-- Akce -->
+        <div class="faktura-form-container">
+            <div class="faktura-actions faktura-actions-right">
+                <button type="button" id="btn-preview" class="faktura-btn faktura-btn-secondary">
+                    <svg class="faktura-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span>Náhled faktury</span>
+                </button>
+                
+                <!-- Pouze tlačítko pro PDF export -->
+                <button type="button" id="btn-download-pdf" class="faktura-btn faktura-btn-primary">
+                    <svg class="faktura-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span>Stáhnout PDF</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Notifikace -->
+        <div class="faktura-notification" id="faktura-notification"></div>
+        
+        <!-- Loader -->
+        <div class="faktura-loader" id="faktura-loader">
+            <div class="faktura-loader-spinner"></div>
+        </div>
+        
+        <!-- Modální okno pro přidání/úpravu položky -->
+        <div class="faktura-modal-overlay" id="modal-polozka">
+            <div class="faktura-modal">
+                <div class="faktura-modal-header">
+                    <h3 class="faktura-modal-title" id="modal-polozka-title">Přidat položku</h3>
+                    <button class="faktura-modal-close" id="modal-polozka-close">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="faktura-modal-body">
+                    <form id="polozka-form">
+                        <input type="hidden" id="polozka-id">
+                        
+                        <div class="faktura-switch-container">
+                            <label class="faktura-switch">
+                                <input type="checkbox" id="polozka-cena-s-dph-toggle">
+                                <span class="faktura-slider"></span>
+                            </label>
+                            <span>Zadávám cenu s DPH</span>
+                        </div>
+                        
+                        <div class="faktura-form-group">
+                            <label for="polozka-nazev" class="faktura-form-label required-field">Označení dodávky</label>
+                            <input type="text" id="polozka-nazev" class="faktura-form-input" required>
+                        </div>
+                        
+                        <div class="faktura-form-grid">
+                            <div class="faktura-form-group">
+                                <label for="polozka-mnozstvi" class="faktura-form-label required-field">Počet m.j.</label>
+                                <input type="number" id="polozka-mnozstvi" class="faktura-form-input" min="0.01" step="0.01" value="1" required>
+                            </div>
+                            
+                            <div class="faktura-form-group">
+                                <label for="polozka-cena" class="faktura-form-label required-field" id="polozka-cena-label">Cena za m.j. bez DPH</label>
+                                <input type="number" id="polozka-cena" class="faktura-form-input" min="0.01" step="0.01" required>
+                            </div>
+                            
+                            <div class="faktura-form-group">
+                                <label for="polozka-dph" class="faktura-form-label required-field">DPH %</label>
+                                <select id="polozka-dph" class="faktura-form-select" required>
+                                    <option value="21">21 %</option>
+                                    <option value="15">15 %</option>
+                                    <option value="10">10 %</option>
+                                    <option value="0">0 %</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="faktura-form-grid" id="polozka-calculated-values" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <div class="faktura-form-group">
+                                <label class="faktura-form-label">Cena za m.j. bez DPH</label>
+                                <div class="faktura-form-input" style="background-color: #f9f9f9;" id="polozka-calc-bez-dph">0,00 Kč</div>
+                            </div>
+                            
+                            <div class="faktura-form-group">
+                                <label class="faktura-form-label">Cena za m.j. s DPH</label>
+                                <div class="faktura-form-input" style="background-color: #f9f9f9;" id="polozka-calc-s-dph">0,00 Kč</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="faktura-modal-footer">
+                    <button type="button" class="faktura-btn faktura-btn-secondary" id="btn-polozka-cancel">Zrušit</button>
+                    <button type="button" class="faktura-btn faktura-btn-primary" id="btn-polozka-save">Uložit</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modální okno pro náhled faktury -->
+        <div class="faktura-modal-overlay" id="modal-preview">
+            <div class="faktura-modal faktura-modal-xl">
+                <div class="faktura-modal-header">
+                    <h3 class="faktura-modal-title">Náhled faktury</h3>
+                    <button class="faktura-modal-close" id="modal-preview-close">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="faktura-modal-body">
+                    <div id="faktura-preview-container" class="faktura-preview">
+                        <!-- Sem bude vložen náhled faktury -->
+                    </div>
+                </div>
+                <div class="faktura-modal-footer">
+                    <button type="button" class="faktura-btn faktura-btn-secondary" id="btn-preview-close">Zavřít</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Skrytý link pro stažení -->
+        <a id="download-link" style="display: none;"></a>
+    </div>
+
+    <!-- Šablona pro tisk faktury - bude použita pro náhled a generování PDF -->
+    <div id="faktura-template" style="display: none;">
+        <div class="faktura-document">
+            <div class="faktura-document-header">
+                <div class="faktura-document-logo">
+                    <img src="https://nonchalance.cz/wp-content/uploads/2025/04/logo-faktura.png" alt="Logo" class="faktura-logo">
+                </div>
+                <div class="faktura-document-title">
+                    <h1>Faktura - daňový doklad</h1>
+                    <div class="faktura-document-number" id="template-faktura-cislo"></div>
+                </div>
+            </div>
+            
+            <div class="faktura-document-parties">
+                <div class="faktura-document-supplier">
+                    <h2>Dodavatel</h2>
+                    <div class="faktura-document-supplier-info">
+                        <p><strong>Edita Prokešová, DiS.</strong></p>
+                        <p>Hrejkovice, Níkovice 21</p>
+                        <p>PSČ 399 01, Česká republika</p>
+                        <p>IČ: 48972517, DIČ: CZ7854180378</p>
+                    </div>
+                </div>
+                
+                <div class="faktura-document-customer">
+                    <h2>Odběratel</h2>
+                    <div class="faktura-document-customer-info" id="template-odberatel-info">
+                        <!-- Sem budou doplněny údaje odběratele -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faktura-document-info">
+                <div class="faktura-document-dates">
+                    <div class="faktura-document-date-item">
+                        <span>Datum vystavení:</span>
+                        <span id="template-datum-vystaveni"></span>
+                    </div>
+                    <div class="faktura-document-date-item">
+                        <span>Datum zdan. plnění:</span>
+                        <span id="template-datum-plneni"></span>
+                    </div>
+                    <div class="faktura-document-date-item">
+                        <span>Datum splatnosti:</span>
+                        <span id="template-datum-splatnosti"></span>
+                    </div>
+                    <!-- Přidání způsobu úhrady do šablony -->
+                    <div class="faktura-document-date-item">
+                        <span>Způsob úhrady:</span>
+                        <span id="template-zpusob-uhrady"></span>
+                    </div>
+                </div>
+                
+                <div class="faktura-document-payment">
+                    <div class="faktura-document-payment-info">
+                        <h3>Bankovní účet</h3>
+                        <p>308000568/0300</p>
+                        <p>IBAN: CZ61 0300 0000 0003 0800 0568</p>
+                    </div>
+                    
+                    <div class="faktura-document-payment-symbols">
+                        <h3>Symbol</h3>
+                        <div class="faktura-document-symbol-item">
+                            <span>Variabilní:</span>
+                            <span id="template-vs"></span>
+                        </div>
+                        <div class="faktura-document-symbol-item">
+                            <span>Konstantní:</span>
+                            <span>0308</span>
+                        </div>
+                    </div>
+                    
+                    <div class="faktura-document-total">
+                        <h3>K úhradě</h3>
+                        <div class="faktura-document-total-amount" id="template-celkem"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faktura-document-items">
+                <h3>Fakturujeme Vám za dodané služby:</h3>
+                <table class="faktura-document-items-table">
+                    <thead>
+                        <tr>
+                            <th>Označení dodávky</th>
+                            <th>Mn.</th>
+                            <th>Cena/m.j.</th>
+                            <th>DPH</th>
+                            <th>Bez DPH</th>
+                            <th>DPH</th>
+                            <th>Celkem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="template-polozky">
+                        <!-- Sem budou doplněny položky faktury -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="faktura-document-summary">
+                <table class="faktura-document-summary-table">
+                    <thead>
+                        <tr>
+                            <th>Sazba DPH</th>
+                            <th>Základ</th>
+                            <th>Výše DPH</th>
+                            <th>Celkem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="template-dph-souhrn">
+                        <!-- Sem bude doplněn souhrn DPH -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Celkem</strong></td>
+                            <td id="template-souhrn-zaklad"></td>
+                            <td id="template-souhrn-dph"></td>
+                            <td id="template-souhrn-celkem"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div class="faktura-document-total-summary">
+                <p>Celkem k úhradě: <strong id="template-summary-total"></strong></p>
+            </div>
+            
+            <div class="faktura-document-footer">
+                <p>Vystaveno v online fakturačním systému NONCHALANCE GARDEN | provas@nonchalance.cz</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Knihovny -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
